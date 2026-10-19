@@ -1,386 +1,214 @@
 // ═══════════════════════════════════════════
-//  RESULT PORTAL — script.js
-//  Class 10 — Annual Examination 2024
+//  RESULT PORTAL — student.js
 //  Tribhuvan University Examination Division
+//  B.Sc. Computer Science & Information Technology
 // ═══════════════════════════════════════════
 
-let results = [
-
+const results = [
   {
-    name:     "Samyog Sapkota",
-    rollNo:   "2024-10-001",
-    class:    "10th Grade",
-    session:  "2023-2024",
+    name: "Samyog Sapkota",
+    rollNo: "2024-10-001",
+    class: "B.Sc. CSIT 6th Sem",
+    session: "2023-2024",
     subjects: {
-      Urdu:        78,
-      English:     82,
-      Mathematics: 91,
-      Physics:     88,
-      Chemistry:   85,
-      Islamiat:    90,
-      Pakistan_Studies: 87
+      Software_Engineering: 92,
+      Database_Management_Systems: 88,
+      Computer_Networks: 91,
+      Operating_Systems: 85,
+      Artificial_Intelligence: 95,
+      Web_Technologies: 94
     }
   },
-
   {
-    name:     "Sara Ahmed",
-    rollNo:   "2024-10-002",
-    class:    "10th Grade",
-    session:  "2023-2024",
+    name: "Aarav Sharma",
+    rollNo: "2024-10-002",
+    class: "B.Sc. CSIT 6th Sem",
+    session: "2023-2024",
     subjects: {
-      Urdu:        92,
-      English:     95,
-      Mathematics: 88,
-      Physics:     90,
-      Chemistry:   93,
-      Islamiat:    97,
-      Pakistan_Studies: 91
+      Software_Engineering: 85,
+      Database_Management_Systems: 82,
+      Computer_Networks: 79,
+      Operating_Systems: 88,
+      Artificial_Intelligence: 90,
+      Web_Technologies: 86
     }
   },
-
   {
-    name:     "Waqas Ahmad",
-    rollNo:   "2024-10-003",
-    class:    "10th Grade",
-    session:  "2023-2024",
+    name: "Bibek Karki",
+    rollNo: "2024-10-003",
+    class: "B.Sc. CSIT 6th Sem",
+    session: "2023-2024",
     subjects: {
-      Urdu:        55,
-      English:     48,
-      Mathematics: 60,
-      Physics:     52,
-      Chemistry:   45,
-      Islamiat:    70,
-      Pakistan_Studies: 58
+      Software_Engineering: 76,
+      Database_Management_Systems: 74,
+      Computer_Networks: 70,
+      Operating_Systems: 72,
+      Artificial_Intelligence: 80,
+      Web_Technologies: 82
     }
   },
-
   {
-    name:     "Samyog Sapkota",
-    rollNo:   "2024-10-004",
-    class:    "10th Grade",
-    session:  "2023-2024",
+    name: "Sneha Adhikari",
+    rollNo: "2024-10-004",
+    class: "B.Sc. CSIT 6th Sem",
+    session: "2023-2024",
     subjects: {
-      Urdu:        85,
-      English:     79,
-      Mathematics: 72,
-      Physics:     68,
-      Chemistry:   74,
-      Islamiat:    88,
-      Pakistan_Studies: 82
+      Software_Engineering: 96,
+      Database_Management_Systems: 94,
+      Computer_Networks: 92,
+      Operating_Systems: 95,
+      Artificial_Intelligence: 98,
+      Web_Technologies: 97
     }
   },
-
   {
-    name:     "Usman Tariq",
-    rollNo:   "2024-10-005",
-    class:    "10th Grade",
-    session:  "2023-2024",
+    name: "Prashant Shrestha",
+    rollNo: "2024-10-005",
+    class: "B.Sc. CSIT 6th Sem",
+    session: "2023-2024",
     subjects: {
-      Urdu:        40,
-      English:     35,
-      Mathematics: 42,
-      Physics:     38,
-      Chemistry:   30,
-      Islamiat:    55,
-      Pakistan_Studies: 44
-    }
-  },
-
-  {
-    name:     "Ayesha Malik",
-    rollNo:   "2024-10-006",
-    class:    "10th Grade",
-    session:  "2023-2024",
-    subjects: {
-      Urdu:        96,
-      English:     98,
-      Mathematics: 94,
-      Physics:     97,
-      Chemistry:   95,
-      Islamiat:    99,
-      Pakistan_Studies: 96
-    }
-  },
-
-  {
-    name:     "Bilal Khan",
-    rollNo:   "2024-10-007",
-    class:    "10th Grade",
-    session:  "2023-2024",
-    subjects: {
-      Urdu:        63,
-      English:     57,
-      Mathematics: 70,
-      Physics:     65,
-      Chemistry:   60,
-      Islamiat:    75,
-      Pakistan_Studies: 68
-    }
-  },
-
-  {
-    name:     "Hina Nawaz",
-    rollNo:   "2024-10-008",
-    class:    "10th Grade",
-    session:  "2023-2024",
-    subjects: {
-      Urdu:        88,
-      English:     84,
-      Mathematics: 79,
-      Physics:     83,
-      Chemistry:   80,
-      Islamiat:    92,
-      Pakistan_Studies: 86
-    }
-  },
-
-  {
-    name:     "Omar Farooq",
-    rollNo:   "2024-10-009",
-    class:    "10th Grade",
-    session:  "2023-2024",
-    subjects: {
-      Urdu:        47,
-      English:     52,
-      Mathematics: 44,
-      Physics:     49,
-      Chemistry:   41,
-      Islamiat:    60,
-      Pakistan_Studies: 50
-    }
-  },
-
-  {
-    name:     "Zara Siddiqui",
-    rollNo:   "2024-10-010",
-    class:    "10th Grade",
-    session:  "2023-2024",
-    subjects: {
-      Urdu:        74,
-      English:     80,
-      Mathematics: 65,
-      Physics:     70,
-      Chemistry:   68,
-      Islamiat:    85,
-      Pakistan_Studies: 77
-    }
-  },
-
-  {
-    name:     "Hamza Iqbal",
-    rollNo:   "2024-10-011",
-    class:    "10th Grade",
-    session:  "2023-2024",
-    subjects: {
-      Urdu:        82,
-      English:     76,
-      Mathematics: 88,
-      Physics:     91,
-      Chemistry:   86,
-      Islamiat:    80,
-      Pakistan_Studies: 79
-    }
-  },
-
-  {
-    name:     "Sana Rehman",
-    rollNo:   "2024-10-012",
-    class:    "10th Grade",
-    session:  "2023-2024",
-    subjects: {
-      Urdu:        59,
-      English:     63,
-      Mathematics: 55,
-      Physics:     58,
-      Chemistry:   52,
-      Islamiat:    70,
-      Pakistan_Studies: 61
-    }
-  },
-
-  {
-    name:     "Kamran Akhtar",
-    rollNo:   "2024-10-013",
-    class:    "10th Grade",
-    session:  "2023-2024",
-    subjects: {
-      Urdu:        33,
-      English:     28,
-      Mathematics: 40,
-      Physics:     35,
-      Chemistry:   30,
-      Islamiat:    48,
-      Pakistan_Studies: 37
-    }
-  },
-
-  {
-    name:     "Nadia Hussain",
-    rollNo:   "2024-10-014",
-    class:    "10th Grade",
-    session:  "2023-2024",
-    subjects: {
-      Urdu:        90,
-      English:     87,
-      Mathematics: 83,
-      Physics:     86,
-      Chemistry:   89,
-      Islamiat:    94,
-      Pakistan_Studies: 88
-    }
-  },
-
-  {
-    name:     "Tariq Mehmood",
-    rollNo:   "2024-10-015",
-    class:    "10th Grade",
-    session:  "2023-2024",
-    subjects: {
-      Urdu:        70,
-      English:     66,
-      Mathematics: 74,
-      Physics:     72,
-      Chemistry:   69,
-      Islamiat:    78,
-      Pakistan_Studies: 73
+      Software_Engineering: 68,
+      Database_Management_Systems: 70,
+      Computer_Networks: 65,
+      Operating_Systems: 62,
+      Artificial_Intelligence: 72,
+      Web_Technologies: 75
     }
   }
-
 ];
 
-
-
-// fetch the button
+// Fetch button listener
 document.getElementById("fetchBtn").addEventListener("click", fetchResult);
 
 function fetchResult() {
-    // fetch the name and roll no
-    let enteredName = document.getElementById("studentName").value;
-    let enteredRollNo = document.getElementById("rollNo").value;
+  const enteredName = (document.getElementById("studentName").value || "").trim();
+  const enteredRollNo = (document.getElementById("rollNo").value || "").trim();
 
-// find the student from the results array
-let student = results.find(s=> 
-    s.name.toLowerCase() === enteredName.toLowerCase() &&
-    s.rollNo === enteredRollNo
+  // Find student by roll number or name
+  const student = results.find(s => 
+    s.rollNo.toLowerCase() === enteredRollNo.toLowerCase() ||
+    (enteredName && s.name.toLowerCase() === enteredName.toLowerCase())
+  );
 
-);
-
-// if student is not found, shows an alert
-if(!student){
-    alert("student not found! Please check your name and roll number");
+  const errorBox = document.getElementById("errorBox");
+  if (!student) {
+    if (errorBox) {
+      errorBox.textContent = "Student not found! Try Roll No: 2024-10-001 (Samyog Sapkota)";
+      errorBox.style.display = "block";
+    } else {
+      alert("Student not found! Please check your name and roll number. Example: Samyog Sapkota / 2024-10-001");
+    }
     return;
-}
+  }
 
-    
-// calculate total marks
-let total = Object.values(student.subjects).reduce((acc, marks)=>acc + marks, 0);
+  if (errorBox) {
+    errorBox.style.display = "none";
+  }
 
+  // Calculate total marks
+  const total = Object.values(student.subjects).reduce((acc, marks) => acc + marks, 0);
+  const outOf = Object.keys(student.subjects).length * 100;
+  const percentage = ((total / outOf) * 100).toFixed(1);
 
-//maximum possible marks
-let outOf = Object.keys(student.subjects).length*100;
+  let grade;
+  if (percentage >= 90) grade = "A+";
+  else if (percentage >= 80) grade = "A";
+  else if (percentage >= 70) grade = "B+";
+  else if (percentage >= 60) grade = "B";
+  else if (percentage >= 50) grade = "C";
+  else grade = "F";
 
-//calculate percentage
-let percentage = (total / outOf) * 100;
-percentage = percentage.toFixed(1);
+  const hasFailed = Object.values(student.subjects).some(marks => marks < 40);
+  const status = hasFailed ? "Fail" : "Pass";
 
-// determine grade
-let grade;
-if(percentage >= 90) grade = "A+";
-else if(percentage >= 80) grade= "A";
-else if(percentage >= 70) grade = "B";
-else if(percentage >= 60) grade = "C";
-else if(percentage >= 50) grade = "D";
-else grade = "F";
-
-// pass or fail
-let hasFailed = Object.values(student.subjects).some(marks => marks<33);
-let status = hasFailed ? "Fail" : "Pass";
-
-
-
-// build the result card
-let subjectRows = "";
-for(let subject in student.subjects){
-    let mark = student.subjects[subject];
+  let subjectRows = "";
+  for (const subject in student.subjects) {
+    const mark = student.subjects[subject];
     let subGrade;
-    if      (mark >= 90) subGrade = "A+";
-  else if (mark >= 80) subGrade = "A";
-  else if (mark >= 70) subGrade = "B";
-  else if (mark >= 60) subGrade = "C";
-  else if (mark >= 50) subGrade = "D";
-  else                 subGrade = "F";
-  subjectRows += `
-  <tr>
-  <td>${subject}</td>
-  <td>100</td>
-  <td>${mark}% </td>
-  <td>${subGrade}</td>
- </tr>`;
+    if (mark >= 90) subGrade = "A+";
+    else if (mark >= 80) subGrade = "A";
+    else if (mark >= 70) subGrade = "B+";
+    else if (mark >= 60) subGrade = "B";
+    else if (mark >= 50) subGrade = "C";
+    else subGrade = "F";
 
+    const cleanSubject = subject.replace(/_/g, " ");
 
-}
+    subjectRows += `
+      <tr>
+        <td><strong>${cleanSubject}</strong></td>
+        <td>100</td>
+        <td>${mark}</td>
+        <td>${mark}%</td>
+        <td><span class="badge ${mark >= 50 ? 'pass-badge' : 'fail-badge'}">${subGrade}</span></td>
+      </tr>
+    `;
+  }
 
-
-
-// get the result area div
-let resultArea = document.getElementById("resultArea");
-
-// inject the full result card
-resultArea.innerHTML = `
-
-  <div class="result-card">
-
-    <!-- student info -->
-    <div class="result-header">
-      <h2>${student.name}</h2>
-      <p>Roll No: ${student.rollNo}</p>
-      <p>Class: ${student.class}</p>
-      <p>Session: ${student.session}</p>
-    </div>
-
-    <!-- subjects table -->
-    <table class="result-table">
-      <thead>
-        <tr>
-          <th>Subject</th>
-          <th>Total Marks</th>
-          <th>Marks Obtained</th>
-          <th>Percentage</th>
-          <th>Grade</th>
-        </tr>
-      </thead>
-      <tbody>
-        ${subjectRows}
-      </tbody>
-    </table>
-
-    <!-- summary -->
-    <div class="result-summary">
-      <div class="summary-box">
-        <span class="summary-label">Total Marks</span>
-        <span class="summary-value">${total} / ${outOf}</span>
+  const resultArea = document.getElementById("resultArea");
+  resultArea.innerHTML = `
+    <div class="result-card">
+      <div class="result-header">
+        <div class="tu-badge">Tribhuvan University · Examination Division</div>
+        <h2>${student.name}</h2>
+        <div class="meta-pills">
+          <span>Roll No: <strong>${student.rollNo}</strong></span>
+          <span>Program: <strong>${student.class}</strong></span>
+          <span>Academic Session: <strong>${student.session}</strong></span>
+        </div>
       </div>
-      <div class="summary-box">
-        <span class="summary-label">Percentage</span>
-        <span class="summary-value">${percentage}%</span>
-      </div>
-      <div class="summary-box">
-        <span class="summary-label">Grade</span>
-        <span class="summary-value">${grade}</span>
-      </div>
-      <div class="summary-box">
-        <span class="summary-label">Status</span>
-        <span class="summary-value ${status === 'PASS' ? 'pass' : 'fail'}">${status}</span>
+
+      <table class="result-table">
+        <thead>
+          <tr>
+            <th>Subject</th>
+            <th>Max Marks</th>
+            <th>Marks Obtained</th>
+            <th>Percentage</th>
+            <th>Grade</th>
+          </tr>
+        </thead>
+        <tbody>
+          ${subjectRows}
+        </tbody>
+      </table>
+
+      <div class="result-summary">
+        <div class="summary-box">
+          <span class="summary-label">Total Score</span>
+          <span class="summary-value">${total} / ${outOf}</span>
+        </div>
+        <div class="summary-box">
+          <span class="summary-label">Percentage</span>
+          <span class="summary-value">${percentage}%</span>
+        </div>
+        <div class="summary-box">
+          <span class="summary-label">Overall Grade</span>
+          <span class="summary-value grade-${grade.toLowerCase().replace('+', '-plus')}">${grade}</span>
+        </div>
+        <div class="summary-box">
+          <span class="summary-label">Result Status</span>
+          <span class="summary-value ${status.toLowerCase() === 'pass' ? 'pass' : 'fail'}">${status}</span>
+        </div>
       </div>
     </div>
+  `;
 
-  </div>
-
-`;
-
-// scroll down to result smoothly
-resultArea.scrollIntoView({ behavior: "smooth" });
-
-
+  resultArea.scrollIntoView({ behavior: "smooth" });
 }
 
+// Enter key support
+document.addEventListener("keydown", (e) => {
+  if (e.key === "Enter") {
+    fetchResult();
+  }
+});
+
+// Prepopulate Samyog Sapkota by default and run fetch on mount
+window.addEventListener("DOMContentLoaded", () => {
+  const nameInput = document.getElementById("studentName");
+  const rollInput = document.getElementById("rollNo");
+  if (nameInput && !nameInput.value) nameInput.value = "Samyog Sapkota";
+  if (rollInput && !rollInput.value) rollInput.value = "2024-10-001";
+  fetchResult();
+});
