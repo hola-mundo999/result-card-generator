@@ -1,8 +1,10 @@
-// ═══════════════════════════════════════════
-//  RESULT PORTAL — student.js
-//  Tribhuvan University Examination Division
-//  B.Sc. Computer Science & Information Technology
-// ═══════════════════════════════════════════
+/* ═══════════════════════════════════════════
+   RESULT PORTAL — student.js
+   Tribhuvan University Examination Division
+   B.Sc. Computer Science & Information Technology
+   ═══════════════════════════════════════════ */
+
+const PASS_MARK = 40;
 
 const results = [
   {
@@ -70,145 +72,210 @@ const results = [
       Software_Engineering: 68,
       Database_Management_Systems: 70,
       Computer_Networks: 65,
-      Operating_Systems: 62,
+      Operating_Systems: 33, // below the pass mark — demonstrates a fail
       Artificial_Intelligence: 72,
       Web_Technologies: 75
     }
   }
 ];
 
-// Fetch button listener
-document.getElementById("fetchBtn").addEventListener("click", fetchResult);
+const $ = (id) => document.getElementById(id);
+const resultArea = $("resultArea");
+const errorBox = $("errorBox");
 
-function fetchResult() {
-  const enteredName = (document.getElementById("studentName").value || "").trim();
-  const enteredRollNo = (document.getElementById("rollNo").value || "").trim();
+/* ── grading ── */
+function gradeFor(marks) {
+  if (marks >= 90) return "A+";
+  if (marks >= 80) return "A";
+  if (marks >= 70) return "B+";
+  if (marks >= 60) return "B";
+  if (marks >= 50) return "C";
+  if (marks >= 40) return "D";
+  return "F";
+}
 
-  // Find student by roll number or name
-  const student = results.find(s => 
-    s.rollNo.toLowerCase() === enteredRollNo.toLowerCase() ||
-    (enteredName && s.name.toLowerCase() === enteredName.toLowerCase())
-  );
+function gradeClass(grade) {
+  return "grade-" + grade.toLowerCase().replace("+", "-plus");
+}
 
-  const errorBox = document.getElementById("errorBox");
-  if (!student) {
-    if (errorBox) {
-      errorBox.textContent = "Student not found! Try Roll No: 2024-10-001 (Samyog Sapkota)";
-      errorBox.style.display = "block";
-    } else {
-      alert("Student not found! Please check your name and roll number. Example: Samyog Sapkota / 2024-10-001");
-    }
-    return;
-  }
+function prettySubject(key) {
+  return key.replace(/_/g, " ");
+}
 
-  if (errorBox) {
-    errorBox.style.display = "none";
-  }
+/* ── validation & errors ── */
+function showError(message) {
+  errorBox.textContent = message;
+  errorBox.classList.add("show");
+}
 
-  // Calculate total marks
-  const total = Object.values(student.subjects).reduce((acc, marks) => acc + marks, 0);
-  const outOf = Object.keys(student.subjects).length * 100;
-  const percentage = ((total / outOf) * 100).toFixed(1);
+function clearError() {
+  errorBox.textContent = "";
+  errorBox.classList.remove("show");
+}
 
-  let grade;
-  if (percentage >= 90) grade = "A+";
-  else if (percentage >= 80) grade = "A";
-  else if (percentage >= 70) grade = "B+";
-  else if (percentage >= 60) grade = "B";
-  else if (percentage >= 50) grade = "C";
-  else grade = "F";
-
-  const hasFailed = Object.values(student.subjects).some(marks => marks < 40);
+/* ── rendering ── */
+function renderResult(student) {
+  const entries = Object.entries(student.subjects);
+  const outOf = entries.length * 100;
+  const total = entries.reduce((sum, [, marks]) => sum + marks, 0);
+  const percentage = (total / outOf) * 100;
+  const hasFailed = entries.some(([, marks]) => marks < PASS_MARK);
+  const overallGrade = hasFailed ? "F" : gradeFor(percentage);
   const status = hasFailed ? "Fail" : "Pass";
 
-  let subjectRows = "";
-  for (const subject in student.subjects) {
-    const mark = student.subjects[subject];
-    let subGrade;
-    if (mark >= 90) subGrade = "A+";
-    else if (mark >= 80) subGrade = "A";
-    else if (mark >= 70) subGrade = "B+";
-    else if (mark >= 60) subGrade = "B";
-    else if (mark >= 50) subGrade = "C";
-    else subGrade = "F";
+  const rows = entries
+    .map(([subject, marks]) => {
+      const grade = gradeFor(marks);
+      const passed = marks >= PASS_MARK;
+      return `
+        <tr class="${passed ? "" : "row-fail"}">
+          <td class="subject-cell">${prettySubject(subject)}</td>
+          <td>100</td>
+          <td class="marks-cell">${marks}</td>
+          <td>${marks}%</td>
+          <td><span class="badge ${passed ? "pass-badge" : "fail-badge"}">${grade}</span></td>
+        </tr>`;
+    })
+    .join("");
 
-    const cleanSubject = subject.replace(/_/g, " ");
-
-    subjectRows += `
-      <tr>
-        <td><strong>${cleanSubject}</strong></td>
-        <td>100</td>
-        <td>${mark}</td>
-        <td>${mark}%</td>
-        <td><span class="badge ${mark >= 50 ? 'pass-badge' : 'fail-badge'}">${subGrade}</span></td>
-      </tr>
-    `;
-  }
-
-  const resultArea = document.getElementById("resultArea");
   resultArea.innerHTML = `
     <div class="result-card">
-      <div class="result-header">
-        <div class="tu-badge">Tribhuvan University · Examination Division</div>
-        <h2>${student.name}</h2>
+      <div class="result-top">
+        <div class="tu-badge">
+          <span class="tu-dot"></span>
+          Tribhuvan University · Examination Division
+        </div>
+        <h2 class="result-name">${student.name}</h2>
         <div class="meta-pills">
-          <span>Roll No: <strong>${student.rollNo}</strong></span>
-          <span>Program: <strong>${student.class}</strong></span>
-          <span>Academic Session: <strong>${student.session}</strong></span>
+          <span>Roll No <strong>${student.rollNo}</strong></span>
+          <span>Program <strong>${student.class}</strong></span>
+          <span>Session <strong>${student.session}</strong></span>
         </div>
       </div>
 
-      <table class="result-table">
-        <thead>
-          <tr>
-            <th>Subject</th>
-            <th>Max Marks</th>
-            <th>Marks Obtained</th>
-            <th>Percentage</th>
-            <th>Grade</th>
-          </tr>
-        </thead>
-        <tbody>
-          ${subjectRows}
-        </tbody>
-      </table>
+      <div class="result-progress">
+        <div class="progress-head">
+          <span>Overall percentage</span>
+          <strong>${percentage.toFixed(1)}%</strong>
+        </div>
+        <div class="progress-track">
+          <div class="progress-fill ${hasFailed ? "is-fail" : ""}" style="width:${Math.min(100, percentage)}%"></div>
+        </div>
+      </div>
+
+      <div class="table-wrap">
+        <table class="result-table">
+          <thead>
+            <tr>
+              <th>Subject</th>
+              <th>Max</th>
+              <th>Marks</th>
+              <th>%</th>
+              <th>Grade</th>
+            </tr>
+          </thead>
+          <tbody>${rows}</tbody>
+        </table>
+      </div>
 
       <div class="result-summary">
         <div class="summary-box">
-          <span class="summary-label">Total Score</span>
+          <span class="summary-label">Total score</span>
           <span class="summary-value">${total} / ${outOf}</span>
         </div>
         <div class="summary-box">
           <span class="summary-label">Percentage</span>
-          <span class="summary-value">${percentage}%</span>
+          <span class="summary-value">${percentage.toFixed(1)}%</span>
         </div>
         <div class="summary-box">
-          <span class="summary-label">Overall Grade</span>
-          <span class="summary-value grade-${grade.toLowerCase().replace('+', '-plus')}">${grade}</span>
+          <span class="summary-label">Overall grade</span>
+          <span class="summary-value ${gradeClass(overallGrade)}">${overallGrade}</span>
         </div>
         <div class="summary-box">
-          <span class="summary-label">Result Status</span>
-          <span class="summary-value ${status.toLowerCase() === 'pass' ? 'pass' : 'fail'}">${status}</span>
+          <span class="summary-label">Result</span>
+          <span class="summary-value ${status === "Pass" ? "pass" : "fail"}">${status}</span>
         </div>
+      </div>
+
+      <p class="result-note">
+        ${hasFailed
+          ? "One or more subjects are below the pass mark of 40."
+          : "Pass mark is 40 per subject. Grades: A+ 90, A 80, B+ 70, B 60, C 50, D 40."}
+      </p>
+
+      <div class="result-actions">
+        <button class="action-btn primary" type="button" id="printBtn">Print / Save PDF</button>
+        <button class="action-btn" type="button" id="resetBtn">New search</button>
       </div>
     </div>
   `;
 
-  resultArea.scrollIntoView({ behavior: "smooth" });
+  $("printBtn").addEventListener("click", () => window.print());
+  $("resetBtn").addEventListener("click", resetSearch);
+
+  resultArea.classList.add("has-result");
 }
 
-// Enter key support
-document.addEventListener("keydown", (e) => {
-  if (e.key === "Enter") {
-    fetchResult();
+/* ── lookup ── */
+function fetchResult() {
+  clearError();
+
+  const name = $("studentName").value.trim();
+  const roll = $("rollNo").value.trim();
+
+  if (!name && !roll) {
+    showError("Enter your full name or your roll number to continue.");
+    return;
   }
+
+  const byRoll = roll
+    ? results.find((s) => s.rollNo.toLowerCase() === roll.toLowerCase())
+    : null;
+  const byName = name
+    ? results.find((s) => s.name.toLowerCase() === name.toLowerCase())
+    : null;
+  const student = byRoll || byName;
+
+  if (!student) {
+    resultArea.innerHTML = ""; // never leave a stale result under an error
+    resultArea.classList.remove("has-result");
+    showError(
+      `No result found for ${roll ? `roll number “${roll}”` : `“${name}”`}. ` +
+        "Check the spelling, or try the demo roll number 2024-10-001."
+    );
+    return;
+  }
+
+  renderResult(student);
+  resultArea.scrollIntoView({ behavior: "smooth", block: "start" });
+}
+
+function resetSearch() {
+  $("studentName").value = "";
+  $("rollNo").value = "";
+  resultArea.innerHTML = "";
+  resultArea.classList.remove("has-result");
+  clearError();
+  $("studentName").focus();
+}
+
+/* ── events ── */
+$("fetchBtn").addEventListener("click", fetchResult);
+
+["studentName", "rollNo"].forEach((id) => {
+  const input = $(id);
+  input.addEventListener("keydown", (event) => {
+    if (event.key === "Enter") {
+      event.preventDefault();
+      fetchResult();
+    }
+  });
+  input.addEventListener("input", clearError);
 });
 
-// Prepopulate Samyog Sapkota by default and run fetch on mount
+/* Preload the demo student so the page is never blank, but keep the fields editable. */
 window.addEventListener("DOMContentLoaded", () => {
-  const nameInput = document.getElementById("studentName");
-  const rollInput = document.getElementById("rollNo");
-  if (nameInput && !nameInput.value) nameInput.value = "Samyog Sapkota";
-  if (rollInput && !rollInput.value) rollInput.value = "2024-10-001";
+  if (!$("studentName").value) $("studentName").value = "Samyog Sapkota";
+  if (!$("rollNo").value) $("rollNo").value = "2024-10-001";
   fetchResult();
 });
