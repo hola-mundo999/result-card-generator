@@ -98,6 +98,34 @@ function gradeClass(grade) {
   return "grade-" + grade.toLowerCase().replace("+", "-plus");
 }
 
+/* Grade points on the TU 4.0 scale, derived from the same bands as the grades. */
+function gradePointFor(marks) {
+  if (marks >= 90) return 4.0;
+  if (marks >= 80) return 3.6;
+  if (marks >= 70) return 3.2;
+  if (marks >= 60) return 2.8;
+  if (marks >= 50) return 2.4;
+  if (marks >= 40) return 2.0;
+  return 0.0;
+}
+
+function totalFor(student) {
+  return Object.values(student.subjects).reduce((sum, marks) => sum + marks, 0);
+}
+
+/* Position among every student in the data set, best total first. Ties share a rank. */
+function rankFor(student) {
+  const total = totalFor(student);
+  const better = results.filter((other) => totalFor(other) > total).length;
+  return { rank: better + 1, of: results.length };
+}
+
+function ordinal(n) {
+  const mod100 = n % 100;
+  if (mod100 >= 11 && mod100 <= 13) return n + "th";
+  return n + ({ 1: "st", 2: "nd", 3: "rd" }[n % 10] || "th");
+}
+
 function prettySubject(key) {
   return key.replace(/_/g, " ");
 }
@@ -123,16 +151,24 @@ function renderResult(student) {
   const overallGrade = hasFailed ? "F" : gradeFor(percentage);
   const status = hasFailed ? "Fail" : "Pass";
 
+  // GPA is the mean of the per-subject grade points; a failed subject zeroes it out.
+  const gpa = hasFailed
+    ? 0
+    : entries.reduce((sum, [, marks]) => sum + gradePointFor(marks), 0) / entries.length;
+  const { rank, of } = rankFor(student);
+
   const rows = entries
     .map(([subject, marks]) => {
       const grade = gradeFor(marks);
       const passed = marks >= PASS_MARK;
+      const point = gradePointFor(marks);
       return `
         <tr class="${passed ? "" : "row-fail"}">
           <td class="subject-cell">${prettySubject(subject)}</td>
           <td>100</td>
           <td class="marks-cell">${marks}</td>
           <td>${marks}%</td>
+          <td>${point.toFixed(1)}</td>
           <td><span class="badge ${passed ? "pass-badge" : "fail-badge"}">${grade}</span></td>
         </tr>`;
     })
@@ -171,6 +207,7 @@ function renderResult(student) {
               <th>Max</th>
               <th>Marks</th>
               <th>%</th>
+              <th>GP</th>
               <th>Grade</th>
             </tr>
           </thead>
@@ -188,6 +225,14 @@ function renderResult(student) {
           <span class="summary-value">${percentage.toFixed(1)}%</span>
         </div>
         <div class="summary-box">
+          <span class="summary-label">GPA (4.0)</span>
+          <span class="summary-value ${hasFailed ? "fail" : ""}">${gpa.toFixed(2)}</span>
+        </div>
+        <div class="summary-box">
+          <span class="summary-label">Class rank</span>
+          <span class="summary-value">${ordinal(rank)} <span class="summary-sub">of ${of}</span></span>
+        </div>
+        <div class="summary-box">
           <span class="summary-label">Overall grade</span>
           <span class="summary-value ${gradeClass(overallGrade)}">${overallGrade}</span>
         </div>
@@ -199,12 +244,13 @@ function renderResult(student) {
 
       <p class="result-note">
         ${hasFailed
-          ? "One or more subjects are below the pass mark of 40."
-          : "Pass mark is 40 per subject. Grades: A+ 90, A 80, B+ 70, B 60, C 50, D 40."}
+          ? "One or more subjects are below the pass mark of 40, so GPA shows 0.00."
+          : "Pass mark is 40 per subject. Grades: A+ 90, A 80, B+ 70, B 60, C 50, D 40. GPA uses the matching 4.0 scale."}
       </p>
 
       <div class="result-actions">
         <button class="action-btn primary" type="button" id="printBtn">Print / Save PDF</button>
+        <button class="action-btn" type="button" id="csvBtn">Download CSV</button>
         <button class="action-btn" type="button" id="resetBtn">New search</button>
       </div>
     </div>
@@ -212,8 +258,77 @@ function renderResult(student) {
 
   $("printBtn").addEventListener("click", () => window.print());
   $("resetBtn").addEventListener("click", resetSearch);
+  $("csvBtn").addEventListener("click", () => downloadCsv(student));
 
   resultArea.classList.add("has-result");
+}
+
+/* ── CSV export ── */
+function csvCell(value) {
+  const text = String(value ?? "");
+  // Quote anything that could break the CSV shape, and never let a cell run as a formula.
+  const safe = /^[=+\-@]/.test(text) ? "'" + text : text;
+  return /[",\n]/.test(safe) ? '"' + safe.replace(/"/g, '""') + '"' : safe;
+}
+
+function buildCsv(student) {
+  const entries = Object.entries(student.subjects);
+  const outOf = entries.length * 100;
+  const total = entries.reduce((sum, [, marks]) => sum + marks, 0);
+  const percentage = (total / outOf) * 100;
+  const hasFailed = entries.some(([, marks]) => marks < PASS_MARK);
+  const gpa = hasFailed
+    ? 0
+    : entries.reduce((sum, [, marks]) => sum + gradePointFor(marks), 0) / entries.length;
+  const { rank, of } = rankFor(student);
+
+  const rows = [
+    ["Tribhuvan University - Examination Division"],
+    [],
+    ["Name", student.name],
+    ["Roll No", student.rollNo],
+    ["Program", student.class],
+    ["Session", student.session],
+    [],
+    ["Subject", "Max", "Marks", "%", "GP", "Grade", "Result"]
+  ];
+
+  entries.forEach(([subject, marks]) => {
+    rows.push([
+      prettySubject(subject),
+      100,
+      marks,
+      marks,
+      gradePointFor(marks).toFixed(1),
+      gradeFor(marks),
+      marks >= PASS_MARK ? "Pass" : "Fail"
+    ]);
+  });
+
+  rows.push(
+    [],
+    ["Total", outOf, total],
+    ["Percentage", percentage.toFixed(1) + "%"],
+    ["GPA (4.0)", gpa.toFixed(2)],
+    ["Class rank", ordinal(rank) + " of " + of],
+    ["Overall grade", hasFailed ? "F" : gradeFor(percentage)],
+    ["Result", hasFailed ? "Fail" : "Pass"]
+  );
+
+  return rows.map((row) => row.map(csvCell).join(",")).join("\r\n");
+}
+
+function downloadCsv(student) {
+  const csv = buildCsv(student);
+  const blob = new Blob(["\uFEFF" + csv], { type: "text/csv;charset=utf-8" });
+  const url = URL.createObjectURL(blob);
+  const link = document.createElement("a");
+  link.href = url;
+  link.download = `result-${student.rollNo.replace(/[^\w-]+/g, "_")}.csv`;
+  document.body.appendChild(link);
+  link.click();
+  link.remove();
+  setTimeout(() => URL.revokeObjectURL(url), 1000);
 }
 
 /* ── lookup ── */

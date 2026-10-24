@@ -753,7 +753,7 @@ input[type="text"]:focus + .input-focus-bar {
 /* summary */
 .result-summary {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
+  grid-template-columns: repeat(3, 1fr);
   gap: 10px;
 }
 
@@ -785,6 +785,13 @@ input[type="text"]:focus + .input-focus-bar {
 
 .summary-value.pass { color: #1F6B4C; }
 .summary-value.fail { color: #A33127; }
+
+.summary-sub {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 11px;
+  font-weight: 500;
+  color: #6B7C97;
+}
 
 .result-note {
   margin-top: 14px;
@@ -835,6 +842,10 @@ input[type="text"]:focus + .input-focus-bar {
   .result-summary { grid-template-columns: 1fr 1fr; }
   .result-actions { flex-direction: column; }
   .action-btn { width: 100%; }
+
+  .result-table { font-size: 11px; }
+  .result-table th,
+  .result-table td { padding: 7px 5px; }
 }
 
 /* ══════════════════════════════════════════
@@ -872,7 +883,7 @@ input[type="text"]:focus + .input-focus-bar {
   .result-table { min-width: 0; }
   .result-table thead th { background: #f0f0f0 !important; color: #000 !important; }
   .result-table tbody td { color: #000 !important; }
-  .result-summary { grid-template-columns: repeat(4, 1fr); }
+  .result-summary { grid-template-columns: repeat(3, 1fr); }
 
   .badge,
   .summary-box,
