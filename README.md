@@ -9,7 +9,10 @@ practise JavaScript and to imagine what a real university result site could look
 - Look up a result by **roll number or full name** (case-insensitive, either field alone works)
 - Subject table with max marks, marks obtained, percentage and grade, with failing subjects
   highlighted in red
-- Summary: total score, percentage, overall grade and pass/fail status
+- Summary: total score, percentage, **GPA on the 4.0 scale**, **class rank** among the demo
+  cohort, overall grade and pass/fail status
+- **Download CSV** — the whole marksheet as a `.csv` (subject rows plus the summary), cell-escaped
+  so names with commas and formula-looking values stay safe
 - Animated percentage bar that switches to red when a subject is failed
 - **Print / Save PDF** button with a dedicated print stylesheet (prints only the marksheet)
 - **New search** button resets the form and the result
