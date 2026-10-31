@@ -1,183 +1,111 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Result Announced</title>
-  <link rel="stylesheet" href="style.css" />
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;1,300&display=swap" rel="stylesheet" />
-</head>
-<body>
-
-  <!-- ░░ BACKGROUND DECORATION ░░ -->
-  <div class="bg-circle bg-circle--1"></div>
-  <div class="bg-circle bg-circle--2"></div>
-  <div class="bg-grid"></div>
-
-  <div class="page-wrap">
-
-    <!-- ══════════════════════════════
-         HEADER
-    ══════════════════════════════ -->
-    <header class="site-header">
-      <div class="header-badge">
-        <span class="badge-dot"></span>
-        Tribhuvan University Examination Division
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta
+      name="description"
+      content="Find official examination result portals and notices for Nepal."
+    />
+    <meta name="theme-color" content="#f5f7fb" />
+    <title>Nepal Examination Results | Result Card Generator</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <a class="skip-link" href="#main">Skip to content</a>
+    <header class="site-header" id="home">
+      <div class="topbar">
+        <a class="brand" href="#home" aria-label="Nepal Examination Results home">
+          <span class="brand-mark" aria-hidden="true">R</span>
+          <span>Result Card Generator</span>
+        </a>
+        <nav aria-label="Main navigation">
+          <a href="#find-results">Find results</a>
+          <a href="#notices">Examination notices</a>
+          <a href="#sources">Official sources</a>
+          <a href="#about">About</a>
+        </nav>
       </div>
-
-      <h1 class="header-title">
-        Result
-        <span class="title-accent">Announced</span>
-      </h1>
-
-      <p class="header-sub">
-        Annual Examination 2024 &nbsp;·&nbsp; Enter your credentials to fetch your result
-      </p>
-
-      <div class="header-ornament">
-        <span class="ornament-line"></span>
-        <span class="ornament-diamond"></span>
-        <span class="ornament-line"></span>
+      <div class="hero">
+        <p class="eyebrow"><span class="status-dot"></span> Independent results directory</p>
+        <h1>Nepal examination<br /><span>results, from the source.</span></h1>
+        <p class="hero-copy">
+          Find the right official result portal for your examination. This service does not
+          invent, store, or claim to verify student results.
+        </p>
+        <a class="button button-primary" href="#find-results">Find an official result <span aria-hidden="true">→</span></a>
+        <div class="trust-note">
+          <span class="shield-icon" aria-hidden="true">✓</span>
+          <span>Student details are entered only on the examination authority's website.</span>
+        </div>
       </div>
     </header>
 
-
-    <!-- ══════════════════════════════
-         SEARCH CARD
-    ══════════════════════════════ -->
-    <main class="main-card">
-
-      <!-- top shimmer bar -->
-      <div class="card-shimmer"></div>
-
-      <div class="card-label">
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
-        Fetch Your Result
-      </div>
-
-      <!-- ROW 1 : Name + Roll Number -->
-      <div class="field-row">
-
-        <div class="field">
-          <label for="studentName">
-            <span class="label-icon">✦</span>
-            Student Full Name
-          </label>
-          <div class="input-wrap">
-            <input
-              type="text"
-              id="studentName"
-              placeholder="e.g. Samyog Sapkota"
-              autocomplete="off"
-            />
-            <span class="input-focus-bar"></span>
+    <main id="main">
+      <section class="section exams-section" id="find-results" aria-labelledby="exams-title">
+        <div class="section-heading">
+          <div>
+            <p class="eyebrow">Choose an examination</p>
+            <h2 id="exams-title">Where are you looking?</h2>
           </div>
+          <p class="section-intro">Select a category to see its verified source and current access status.</p>
         </div>
+        <div class="exam-grid" id="examGrid"></div>
+        <p id="selectionAnnouncement" class="visually-hidden" role="status" aria-live="polite" aria-atomic="true"></p>
+        <section class="source-panel" id="sourcePanel" aria-labelledby="panelTitle" hidden>
+          <div id="sourcePanelContent"></div>
+        </section>
+      </section>
 
-        <div class="field">
-          <label for="rollNo">
-            <span class="label-icon">✦</span>
-            Roll Number
-          </label>
-          <div class="input-wrap">
-            <input
-              type="text"
-              id="rollNo"
-              placeholder="e.g. 2024-10-001"
-              autocomplete="off"
-            />
-            <span class="input-focus-bar"></span>
+      <section class="section notices-section" id="notices" aria-labelledby="notices-title">
+        <div class="section-heading">
+          <div>
+            <p class="eyebrow">Updates</p>
+            <h2 id="notices-title">Examination notices</h2>
           </div>
+          <span class="sync-state"><span class="status-dot status-dot-muted"></span> Live updates not configured</span>
         </div>
-
-      </div>
-
-      <!-- ROW 2 : Class + Session -->
-      <div class="field-row">
-
-        <div class="field">
-          <label for="className">
-            <span class="label-icon">✦</span>
-            Class / Grade
-          </label>
-          <div class="input-wrap">
-            <input
-              type="text"
-              id="className"
-              placeholder="e.g. 10th Grade"
-              autocomplete="off"
-            />
-            <span class="input-focus-bar"></span>
-          </div>
-        </div>
-
-        <div class="field">
-          <label for="session">
-            <span class="label-icon">✦</span>
-            Academic Session
-          </label>
-          <div class="input-wrap">
-            <input
-              type="text"
-              id="session"
-              placeholder="e.g. 2023 – 2024"
-              autocomplete="off"
-            />
-            <span class="input-focus-bar"></span>
-          </div>
-        </div>
-
-      </div>
-
-      <!-- BUTTON -->
-      <button class="fetch-btn" id="fetchBtn">
-        <span class="btn-text">Fetch My Result</span>
-        <span class="btn-arrow">→</span>
-        <span class="btn-shine"></span>
-      </button>
-
-      <!-- INLINE ERROR -->
-      <div class="error-box" id="errorBox" role="alert" aria-live="polite"></div>
-
-      <!-- DIVIDER -->
-      <div class="card-divider">
-        <span class="divider-line"></span>
-        <span class="divider-text">important note</span>
-        <span class="divider-line"></span>
-      </div>
-
-      <!-- NOTICE -->
-      <div class="notice">
-        <div class="notice-icon">i</div>
-        <p class="notice-text">
-          Your <strong>Roll Number</strong> is printed on your admit card or
-          registration slip. Enter it <strong>exactly</strong> as shown —
-          including any dashes or leading zeros.
+        <p class="section-intro notices-intro">
+          Notices are not automatically collected or monitored. Use these official authority pages
+          to check current announcements; publication dates are shown only by the authority.
         </p>
-      </div>
+        <div class="notice-grid" id="noticeGrid"></div>
+      </section>
 
+      <section class="section sources-section" id="sources" aria-labelledby="sources-title">
+        <div class="section-heading">
+          <div>
+            <p class="eyebrow">Transparency</p>
+            <h2 id="sources-title">Official source directory</h2>
+          </div>
+          <p class="section-intro">Every link opens the authority's own page. No third-party result aggregators.</p>
+        </div>
+        <div class="source-list" id="sourceList"></div>
+      </section>
+
+      <section class="about-section" id="about" aria-labelledby="about-title">
+        <div class="about-inner">
+          <p class="eyebrow">About this service</p>
+          <h2 id="about-title">A guide to official results, not an examination authority.</h2>
+          <p>
+            This is an independent result discovery and presentation platform. It is not affiliated
+            with or endorsed by the National Examination Board, Tribhuvan University, IoST or any
+            municipality. Official results remain the responsibility of the respective examination
+            authorities.
+          </p>
+        </div>
+      </section>
     </main>
 
-
-    <!-- ══════════════════════════════
-         RESULT AREA  (JS fills this)
-    ══════════════════════════════ -->
-    <section id="resultArea" class="result-area"></section>
-
-
-    <!-- ══════════════════════════════
-         FOOTER
-    ══════════════════════════════ -->
     <footer class="site-footer">
-      <span>Tribhuvan University Examination Division</span>
-      <span class="footer-dot">·</span>
-      <span>Result Portal 2024</span>
-      <span class="footer-dot">·</span>
-      <span>All rights reserved</span>
+      <span>Independent examination result directory for Nepal</span>
+      <a href="#sources">Review official sources</a>
     </footer>
 
-  </div><!-- /page-wrap -->
-
-  <script src="student.js"></script>
-</body>
+    <noscript>
+      <p class="noscript-note">Enable JavaScript to browse the examination source directory.</p>
+    </noscript>
+    <script src="official-sources.js"></script>
+    <script src="student.js"></script>
+  </body>
 </html>
